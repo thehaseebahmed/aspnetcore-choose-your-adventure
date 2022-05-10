@@ -1,8 +1,9 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Tha.ChooseYourAdventure.Data.Entities;
-using System;
 using Tha.ChooseYourAdventure.Library.ViewModels;
+using System;
+using Adventures = Tha.ChooseYourAdventure.Library.Resources.Adventures;
+using UserAdventures = Tha.ChooseYourAdventure.Library.Resources.UserAdventures;
 using Tha.ChooseYourAdventure.Library.Repositories;
 
 namespace Tha.ChooseYourAdventure.Library
@@ -26,16 +27,44 @@ namespace Tha.ChooseYourAdventure.Library
             //     );
 
             #endregion
-            #region WeatherForecast Handlers
+            #region Adventures Handlers
 
             services.AddScoped(
-                typeof(IRequestHandler<Core.Get.Request<WeatherForecast>, PagedResultViewModel<WeatherForecast>>),
-                typeof(Core.Get.Handler<WeatherForecast>)
+                typeof(IRequestHandler<Adventures.Get.Request, PagedResultViewModel<Data.Entities.AdventureNode>>),
+                typeof(Adventures.Get.Handler)
                 );
 
             services.AddScoped(
-                typeof(IRequestHandler<Resources.WeatherForecasts.Create.Command, CommandResultViewModel>),
-                typeof(Core.Create.Handler<Resources.WeatherForecasts.Create.Command, WeatherForecast, Guid>)
+                typeof(IRequestHandler<Adventures.GetById.Request, Data.Entities.AdventureNode>),
+                typeof(Adventures.GetById.Handler)
+                );
+
+            services.AddScoped(
+                typeof(IRequestHandler<Adventures.Create.Command, CommandResultViewModel>),
+                typeof(Core.Create.Handler<Adventures.Create.Command, Data.Entities.AdventureNode>)
+                );
+
+            #endregion
+            #region User Adventures Handlers
+
+            services.AddScoped(
+                typeof(IRequestHandler<UserAdventures.Get.Request, PagedResultViewModel<Data.Entities.UserAdventure>>),
+                typeof(UserAdventures.Get.Handler)
+                );
+
+            services.AddScoped(
+                typeof(IRequestHandler<Core.GetById.Request<Data.Entities.AdventureNode>, Data.Entities.AdventureNode>),
+                typeof(Core.GetById.Handler<Data.Entities.AdventureNode>)
+                );
+
+            services.AddScoped(
+                typeof(IRequestHandler<UserAdventures.Create.Command, CommandResultViewModel>),
+                typeof(Core.Create.Handler<UserAdventures.Create.Command, Data.Entities.UserAdventure>)
+                );
+
+            services.AddScoped(
+                typeof(IRequestHandler<UserAdventures.Put.Command, CommandResultViewModel>),
+                typeof(UserAdventures.Put.Handler)
                 );
 
             #endregion
