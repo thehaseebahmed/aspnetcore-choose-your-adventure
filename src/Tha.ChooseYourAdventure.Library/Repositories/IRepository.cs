@@ -14,7 +14,6 @@ namespace Tha.ChooseYourAdventure.Library.Repositories
         Task<T> CreateAsync(T model, CancellationToken cancellatonToken = default);
         Task<T> DeleteAsync(object id, CancellationToken cancellatonToken = default);
         IQueryable<T> Read();
-        T Read(object id);
         Task<T> UpdateAsync(object id, T model, CancellationToken cancellatonToken = default);
     }
 }

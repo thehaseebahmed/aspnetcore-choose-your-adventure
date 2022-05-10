@@ -103,6 +103,8 @@ namespace Tha.ChooseYourAdventure.WebAPI
         public void AddMyDependencies(IServiceCollection services)
         {
             services.AddMyHandlers();
+            services.AddMyRepositories();
+
             services.AddScoped<IDbSeeder, DbSeeder>();
             services.AddTransient<IValidatorInterceptor, CustomResponseInterceptor>();
         }

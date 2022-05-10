@@ -73,7 +73,7 @@ namespace Tha.ChooseYourAdventure.Data
                     }
                 }
             };
-            if(!Context.Adventures.Any(a => a.Id.Equals(doughnutAdventure.Id)))
+            if (!Context.Adventures.Any(a => a.Id.Equals(doughnutAdventure.Id)))
             {
                 Context.Adventures.AddRange(doughnutAdventure);
             }

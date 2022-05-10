@@ -25,6 +25,11 @@ namespace Tha.ChooseYourAdventure.Library.Repositories
 
         public async Task<T> CreateAsync(T entity, CancellationToken cancellatonToken = default)
         {
+            if (entity is IAuditable)
+            {
+                (entity as IAuditable).CreatedOn = System.DateTimeOffset.Now;
+            }
+
             _context.Set<T>().Add(entity);
             await _context.SaveChangesAsync(cancellatonToken);
 
@@ -35,6 +40,11 @@ namespace Tha.ChooseYourAdventure.Library.Repositories
         {
             var entity = await _context.Set<T>().FindAsync(id);
             if (entity == null) { return null; }
+            
+            if (entity is IAuditable)
+            {
+                (entity as IAuditable).UpdatedOn = System.DateTimeOffset.Now;
+            }
 
             if (entity is ISoftDeletable)
             {
@@ -54,16 +64,16 @@ namespace Tha.ChooseYourAdventure.Library.Repositories
             return _context.Set<T>().AsQueryable();
         }
 
-        public T Read(object id)
-        {
-            return _context.Set<T>().Find(id);
-        }
-
         public async Task<T> UpdateAsync(object id, T model, CancellationToken cancellatonToken = default)
         {
             var entity = await _context.Set<T>().FindAsync(id);
             if (entity == null) { return model; }
             _mapper.Map(model, entity);
+
+            if (entity is IAuditable)
+            {
+                (entity as IAuditable).UpdatedOn = System.DateTimeOffset.Now;
+            }
 
             await _context.SaveChangesAsync(cancellatonToken);
             return entity;
