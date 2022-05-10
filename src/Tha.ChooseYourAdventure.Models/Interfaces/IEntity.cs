@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Tha.ChooseYourAdventure.Data.Interfaces
 {
-    public interface IEntity<T>
+    public interface IEntity
     {
-        T Id { get; set; }
+        Guid Id { get; set; }
     }
 }
