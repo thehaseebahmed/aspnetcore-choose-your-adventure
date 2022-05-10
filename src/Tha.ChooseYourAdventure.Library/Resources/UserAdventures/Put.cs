@@ -55,6 +55,7 @@ namespace Tha.ChooseYourAdventure.Library.Resources.UserAdventures
                     .Include(ua => ua.Adventure)
                     .ThenInclude(ua => ua.Children)
                     .Include(ua => ua.Steps)
+                    .ThenInclude(s => s.AdventureStep.Children)
                     .FirstOrDefault(ua => ua.Id.Equals(req.UserAdventureId));
 
                 if (userAdventure == null)
@@ -69,7 +70,11 @@ namespace Tha.ChooseYourAdventure.Library.Resources.UserAdventures
                     return;
                 }
 
-                var lastStep = userAdventure.Steps.LastOrDefault()?.AdventureStep;
+                var lastStep = userAdventure.Steps
+                    .OrderBy(s => s.CreatedOn)
+                    .LastOrDefault()?
+                    .AdventureStep;
+
                 if (lastStep == null && userAdventure.Adventure.Children.Any(c => c.Id.Equals(req.AdventureStepId)))
                 {
                     return;
@@ -86,16 +91,19 @@ namespace Tha.ChooseYourAdventure.Library.Resources.UserAdventures
 
         public class Handler : IRequestHandler<Command, CommandResultViewModel>
         {
+            private readonly IRepository<AdventureNode> _adventureRepo;
             private readonly IMapper _mapper;
             private readonly IRepository<UserAdventure> _userAdventureRepo;
             private readonly IRepository<UserAdventureStep> _userAdventureStepRepo;
 
             public Handler(
+                IRepository<AdventureNode> adventureRepo,
                 IMapper mapper,
                 IRepository<UserAdventure> userAdventureRepo,
                 IRepository<UserAdventureStep> userAdventureStepRepo
                 )
             {
+                _adventureRepo = adventureRepo;
                 _mapper = mapper;
                 _userAdventureRepo = userAdventureRepo;
                 _userAdventureStepRepo = userAdventureStepRepo;
@@ -111,11 +119,14 @@ namespace Tha.ChooseYourAdventure.Library.Resources.UserAdventures
                 await _userAdventureStepRepo.CreateAsync(model);
 
                 // 2a. CHECK IF THERE ARE ANY FURTHER STEPS OR IF THIS IS THE END
-                var adventure = _userAdventureRepo.Read(request.AdventureStepId);
-                if (!adventure.Adventure.Children.Any())
+                var adventure = _adventureRepo.Read()
+                    .Include(e => e.Children)
+                    .FirstOrDefault(e => e.Id.Equals(request.AdventureStepId));
+
+                if (!adventure.Children.Any())
                 {
                     // 2b. IF END, MARK THE USER'S ADVENTURE AS COMPLETED
-                    var userAdventure = _userAdventureRepo.Read(request.UserAdventureId);
+                    var userAdventure = _userAdventureRepo.Read().FirstOrDefault(e => e.Id.Equals(request.UserAdventureId));
                     userAdventure.Status = UserAdventureStatus.Completed;
 
                     await _userAdventureRepo.UpdateAsync(request.UserAdventureId, userAdventure);

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Tha.ChooseYourAdventure.Data;
 using Tha.ChooseYourAdventure.Data.Entities;
 using Tha.ChooseYourAdventure.Data.Enums;
 using Tha.ChooseYourAdventure.Library.Constants;
@@ -31,6 +30,7 @@ namespace Tha.ChooseYourAdventure.Library.Resources.UserAdventures
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
+            public string OptionTitle { get; set; }
             public UserAdventureStatus Status { get; set; }
             public ICollection<ResponseSteps> Steps { get; set; }
 

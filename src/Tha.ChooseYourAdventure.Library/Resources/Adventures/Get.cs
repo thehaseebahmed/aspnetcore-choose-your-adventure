@@ -29,6 +29,7 @@ namespace Tha.ChooseYourAdventure.Library.Resources.Adventures
         {
             public Guid Id { get; set; }
             public string Name { get; set; }
+            public string OptionTitle { get; set; }
         }
 
         public class Mapper : Profile
