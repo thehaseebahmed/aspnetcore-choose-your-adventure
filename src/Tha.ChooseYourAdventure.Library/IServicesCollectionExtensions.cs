@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Tha.ChooseYourAdventure.Data.Entities;
 using System;
 using Tha.ChooseYourAdventure.Library.ViewModels;
+using Tha.ChooseYourAdventure.Library.Repositories;
 
 namespace Tha.ChooseYourAdventure.Library
 {
@@ -38,6 +39,15 @@ namespace Tha.ChooseYourAdventure.Library
                 );
 
             #endregion
+
+            return services;
+        }
+
+        public static IServiceCollection AddMyRepositories(this IServiceCollection services)
+        {
+            services.AddScoped(typeof(IRepository<Data.Entities.AdventureNode>), typeof(EFCoreRepository<Data.Entities.AdventureNode>));
+            services.AddScoped(typeof(IRepository<Data.Entities.UserAdventure>), typeof(EFCoreRepository<Data.Entities.UserAdventure>));
+            services.AddScoped(typeof(IRepository<Data.Entities.UserAdventureStep>), typeof(EFCoreRepository<Data.Entities.UserAdventureStep>));
 
             return services;
         }
