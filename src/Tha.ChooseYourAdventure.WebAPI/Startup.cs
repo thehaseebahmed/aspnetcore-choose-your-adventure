@@ -84,7 +84,7 @@ namespace Tha.ChooseYourAdventure.WebAPI
 
         public void ConfigureDbContext(DbContextOptionsBuilder options)
         {
-            options.UseInMemoryDatabase("InMemory Database");
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         }
 
         public void ConfigureFluentValidation(FluentValidationMvcConfiguration options)
