@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using System.Text;
 using System.Text.RegularExpressions;
+using Tha.ChooseYourAdventure.Library.Core;
 
 namespace Tha.ChooseYourAdventure.Library.Extensions
 {
@@ -36,6 +35,30 @@ namespace Tha.ChooseYourAdventure.Library.Extensions
             if (string.IsNullOrEmpty(order)) { throw new ArgumentNullException("order"); }
 
             queryable = queryable.OrderBy(order);
+            return queryable;
+        }
+
+        public static IQueryable<T> Page<T>(this IQueryable<T> queryable, IPagedGetRequest request, out int count)
+            where T : class
+        {
+            if (queryable == null) { throw new ArgumentNullException("queryable"); }
+
+            if (request.Skip > 0)
+            {
+                queryable = queryable.Skip(request.Skip);
+            }
+
+            if (request.Limit > 0)
+            {
+                queryable = queryable.Take(request.Limit);
+            }
+
+            count = 0;
+            if (request.Count)
+            {
+                count = queryable.Count();
+            }
+
             return queryable;
         }
     }

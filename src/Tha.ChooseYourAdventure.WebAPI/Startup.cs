@@ -53,6 +53,7 @@ namespace Tha.ChooseYourAdventure.WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                SeedDatabase(app);
             }
 
             app.UseHttpsRedirection();
@@ -95,19 +96,24 @@ namespace Tha.ChooseYourAdventure.WebAPI
 
         public void ConfigureSwaggerGen(SwaggerGenOptions options)
         {
+            options.CustomSchemaIds(type => type.ToString());
             options.SwaggerDoc(ApiVersion, new OpenApiInfo { Title = ApiTitle, Version = ApiVersion });
         }
 
         public void AddMyDependencies(IServiceCollection services)
         {
             services.AddMyHandlers();
+            services.AddScoped<IDbSeeder, DbSeeder>();
             services.AddTransient<IValidatorInterceptor, CustomResponseInterceptor>();
         }
 
         public void SeedDatabase(IApplicationBuilder app)
-        {
-            var context = app.ApplicationServices.GetService<ApiDbContext>();
-            Seeder.Seed(context);
+        {;
+            using (var scope = app.ApplicationServices.CreateScope())
+            {
+                var dbSeeder = scope.ServiceProvider.GetRequiredService<IDbSeeder>();
+                dbSeeder.Seed();
+            }
         }
     }
 }

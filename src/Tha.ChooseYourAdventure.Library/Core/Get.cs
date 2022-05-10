@@ -1,19 +1,19 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Tha.ChooseYourAdventure.Data;
 using Tha.ChooseYourAdventure.Library.Extensions;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Tha.ChooseYourAdventure.Library.Constants;
-using Tha.ChooseYourAdventure.Library.Extensions;
 using Tha.ChooseYourAdventure.Library.ViewModels;
+using Tha.ChooseYourAdventure.Library.Repositories;
+using Tha.ChooseYourAdventure.Data.Interfaces;
 
 namespace Tha.ChooseYourAdventure.Library.Core
 {
     public class Get
     {
-        public class Request<TEntity> : IRequest<PagedResultViewModel<TEntity>>
+        public class Request<TEntity> : IPagedGetRequest, IRequest<PagedResultViewModel<TEntity>>
             where TEntity : class
         {
             public bool Count { get; set; } = InfraConstants.DEFAULT_QUERY_COUNT;
@@ -24,15 +24,15 @@ namespace Tha.ChooseYourAdventure.Library.Core
         }
 
         public class Handler<TEntity> : IRequestHandler<Request<TEntity>, PagedResultViewModel<TEntity>>
-            where TEntity : class
+            where TEntity : class, IEntity
         {
-            private readonly ApiDbContext _db;
+            private readonly IRepository<TEntity> _repo;
 
             public Handler(
-                ApiDbContext db
+                IRepository<TEntity> repo
                 )
             {
-                _db = db;
+                _repo = repo;
             }
 
             public async Task<PagedResultViewModel<TEntity>> Handle(
@@ -40,7 +40,7 @@ namespace Tha.ChooseYourAdventure.Library.Core
                 CancellationToken cancellationToken
                 )
             {
-                var query = _db.Set<TEntity>().AsQueryable();
+                var query = _repo.Read();
 
                 if (request.Filter.HasValue())
                 {
@@ -52,28 +52,12 @@ namespace Tha.ChooseYourAdventure.Library.Core
                     query = query.Order(request.Order);
                 }
 
-                if (request.Skip > 0)
-                {
-                    query = query.Skip(request.Skip);
-                }
-
-                if (request.Limit > 0)
-                {
-                    query = query.Take(request.Limit);
-                }
-
-                int count = 0;
-                if (request.Count)
-                {
-                    count = query.Count();
-                }
-
-                var data = query.AsEnumerable();
+                query = query.Page(request, out int count);
 
                 return new PagedResultViewModel<TEntity>
                 {
                     Count = count,
-                    Data = data
+                    Data = query.AsEnumerable()
                 };
             }
         }

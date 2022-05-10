@@ -25,6 +25,12 @@ namespace Tha.ChooseYourAdventure.WebAPI.Filters
 
             switch (context.Exception)
             {
+                case NotFoundException ex:
+                    context.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+                    context.Result = new ObjectResult(
+                        new ErrorViewModel { ErrorCode = ex.Code, ErrorMessage = ex.Message }
+                        );
+                    return;
                 case ValidationException ex:
                     context.HttpContext.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
                     context.Result = new ObjectResult(
