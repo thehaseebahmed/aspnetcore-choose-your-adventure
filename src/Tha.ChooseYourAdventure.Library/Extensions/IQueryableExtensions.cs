@@ -43,6 +43,12 @@ namespace Tha.ChooseYourAdventure.Library.Extensions
         {
             if (queryable == null) { throw new ArgumentNullException("queryable"); }
 
+            count = 0;
+            if (request.Count)
+            {
+                count = queryable.Count();
+            }
+
             if (request.Skip > 0)
             {
                 queryable = queryable.Skip(request.Skip);
@@ -51,12 +57,6 @@ namespace Tha.ChooseYourAdventure.Library.Extensions
             if (request.Limit > 0)
             {
                 queryable = queryable.Take(request.Limit);
-            }
-
-            count = 0;
-            if (request.Count)
-            {
-                count = queryable.Count();
             }
 
             return queryable;

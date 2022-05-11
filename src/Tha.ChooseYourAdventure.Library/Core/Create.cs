@@ -33,8 +33,7 @@ namespace Tha.ChooseYourAdventure.Library.Core
                 )
             {
                 var model = _mapper.Map<TEntity>(request);
-
-                await _repo.CreateAsync(model, cancellationToken);
+                model = await _repo.CreateAsync(model, cancellationToken);
 
                 return _mapper.Map<CommandResultViewModel>(model);
             }
