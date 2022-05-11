@@ -1,3 +1,4 @@
+using AutoMapper;
 using MockQueryable.Moq;
 using Moq;
 using System;
@@ -17,10 +18,18 @@ namespace Tha.ChooseYourAdventure.UnitTests
     public class AdventuresGetUnitTests
     {
         private readonly Mock<IRepository<AdventureNode>> _adventuresRepo;
+        private readonly IMapper _mapper;
 
         public AdventuresGetUnitTests()
         {
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new Adventures.Get.Mapper());
+                mc.AddProfile(new Adventures.GetById.Mapper());
+            });
+
             _adventuresRepo = new Mock<IRepository<AdventureNode>>();
+            _mapper = mappingConfig.CreateMapper();
 
             var adventuresList = new List<AdventureNode>(new[] {
                 new AdventureNode()
