@@ -116,7 +116,7 @@ namespace Tha.ChooseYourAdventure.Library.Resources.UserAdventures
             {
                 // 1. CREATE A NEW STEP IN USER'S ADVENTURE
                 var model = _mapper.Map<UserAdventureStep>(request);
-                await _userAdventureStepRepo.CreateAsync(model);
+                model = await _userAdventureStepRepo.CreateAsync(model);
 
                 // 2a. CHECK IF THERE ARE ANY FURTHER STEPS OR IF THIS IS THE END
                 var adventure = _adventureRepo.Read()

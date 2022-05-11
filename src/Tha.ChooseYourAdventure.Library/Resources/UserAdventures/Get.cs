@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -54,6 +55,14 @@ namespace Tha.ChooseYourAdventure.Library.Resources.UserAdventures
                     .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.AdventureStep.Name))
                     .ForMember(dst => dst.OptionTitle, opt => opt.MapFrom(src => src.AdventureStep.OptionTitle))
                     ;
+            }
+        }
+
+        public class Validation : AbstractValidator<Request>
+        {
+            public Validation()
+            {
+                RuleFor(r => r.UserId).NotEmpty();
             }
         }
 
