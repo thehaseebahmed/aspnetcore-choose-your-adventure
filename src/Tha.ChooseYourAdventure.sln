@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tha.ChooseYourAdventure.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tha.ChooseYourAdventure.UnitTests", "Tha.ChooseYourAdventure.UnitTests\Tha.ChooseYourAdventure.UnitTests.csproj", "{32BF454A-D217-44B0-9B00-7A9A3158CFBA}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tha.ChooseYourAdventure.Console", "Tha.ChooseYourAdventure.Console\Tha.ChooseYourAdventure.Console.csproj", "{62BDD222-3E4E-423E-AB35-6D2BFCFC409B}"
+EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{8CAD68FC-0ECF-4E14-84B1-2046675FF351}"
 EndProject
 Global
@@ -35,6 +37,10 @@ Global
 		{32BF454A-D217-44B0-9B00-7A9A3158CFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32BF454A-D217-44B0-9B00-7A9A3158CFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32BF454A-D217-44B0-9B00-7A9A3158CFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62BDD222-3E4E-423E-AB35-6D2BFCFC409B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62BDD222-3E4E-423E-AB35-6D2BFCFC409B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62BDD222-3E4E-423E-AB35-6D2BFCFC409B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62BDD222-3E4E-423E-AB35-6D2BFCFC409B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8CAD68FC-0ECF-4E14-84B1-2046675FF351}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8CAD68FC-0ECF-4E14-84B1-2046675FF351}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CAD68FC-0ECF-4E14-84B1-2046675FF351}.Release|Any CPU.ActiveCfg = Release|Any CPU
