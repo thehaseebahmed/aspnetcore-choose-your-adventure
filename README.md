@@ -62,11 +62,8 @@ This is an open-ended exercise but we would like you to use .net Core with OpenA
 We really care about clean, readable code, clean application architecture and meaningful tests – the app should be simple, readable and covered with tests.
 
 We are not specific about what database you use, and are happy with any data store approach you find most efficient for this task.
- 
- 
+
 We should be able to run your application with docker and access the swagger page. In the end, just have fun!
-
-
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -76,18 +73,18 @@ We should be able to run your application with docker and access the swagger pag
 
 This project uses the following set of frameworks & libraries:
 
-- [.NET 6](http://www.abc.com)
-- [Auto Mapper]()
-- [ASP.NET Core](http://www.abc.com)
-- [Docker]()
-- [Dynamic LINQ]()
-- [Entity Framework Core]()
-- [Fluent Validation](http://www.abc.com)
-- [MediatR](http://www.abc.com)
-- [Mock Queryable](http://www.abc.com)
-- [Moq]()
-- [Swashbuckle]()
-- [xUnit]()
+- [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
+- [Auto Mapper](https://automapper.org)
+- [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-6.0)
+- [Docker](https://www.docker.com)
+- [Dynamic LINQ](https://dynamic-linq.net)
+- [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)
+- [Fluent Validation](https://docs.fluentvalidation.net/en/latest/)
+- [MediatR](https://github.com/jbogard/MediatR)
+- [Mock Queryable](https://github.com/romantitov/MockQueryable)
+- [Moq](https://github.com/Moq/moq4)
+- [Swagger](https://swagger.io)
+- [xUnit](https://xunit.net)
 
 <!-- GETTING STARTED -->
 
@@ -120,7 +117,7 @@ To get a local copy up and running follow these simple example steps.
 
 ### Unit Tests
 
-To execute the unit tests via [xUnit](), simply open the Test Explorer in Visual Studio and click on the "__Run All Tests in View Explorer__" button, alternatively you can also use the shortcut _(Ctrl+R, V)_.
+To execute the unit tests via [xUnit](https://xunit.net), simply open the Test Explorer in Visual Studio and click on the "__Run All Tests in View Explorer__" button, alternatively you can also use the shortcut _(Ctrl+R, V)_.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
