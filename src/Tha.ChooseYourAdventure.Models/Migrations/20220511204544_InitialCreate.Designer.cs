@@ -12,7 +12,7 @@ using Tha.ChooseYourAdventure.Data;
 namespace Tha.ChooseYourAdventure.Data.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220509174441_InitialCreate")]
+    [Migration("20220511204544_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,14 +54,9 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
                     b.Property<DateTimeOffset>("UpdatedOn")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("UserAdventureId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AdventureNodeId");
-
-                    b.HasIndex("UserAdventureId");
 
                     b.ToTable("Adventures");
                 });
@@ -129,7 +124,10 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdventureStepId");
+                    b.HasIndex("AdventureStepId")
+                        .IsUnique();
+
+                    b.HasIndex("UserAdventureId");
 
                     b.ToTable("UserAdventureSteps");
                 });
@@ -138,11 +136,8 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
                 {
                     b.HasOne("Tha.ChooseYourAdventure.Data.Entities.AdventureNode", null)
                         .WithMany("Children")
-                        .HasForeignKey("AdventureNodeId");
-
-                    b.HasOne("Tha.ChooseYourAdventure.Data.Entities.UserAdventure", null)
-                        .WithMany("Steps")
-                        .HasForeignKey("UserAdventureId");
+                        .HasForeignKey("AdventureNodeId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 
             modelBuilder.Entity("Tha.ChooseYourAdventure.Data.Entities.UserAdventure", b =>
@@ -150,7 +145,7 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
                     b.HasOne("Tha.ChooseYourAdventure.Data.Entities.AdventureNode", "Adventure")
                         .WithMany()
                         .HasForeignKey("AdventureId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Adventure");
@@ -159,9 +154,15 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
             modelBuilder.Entity("Tha.ChooseYourAdventure.Data.Entities.UserAdventureStep", b =>
                 {
                     b.HasOne("Tha.ChooseYourAdventure.Data.Entities.AdventureNode", "AdventureStep")
-                        .WithMany()
-                        .HasForeignKey("AdventureStepId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne()
+                        .HasForeignKey("Tha.ChooseYourAdventure.Data.Entities.UserAdventureStep", "AdventureStepId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Tha.ChooseYourAdventure.Data.Entities.UserAdventure", null)
+                        .WithMany("Steps")
+                        .HasForeignKey("UserAdventureId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("AdventureStep");

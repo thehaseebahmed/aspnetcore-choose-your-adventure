@@ -21,8 +21,7 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
                     CreatedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdatedById = table.Column<int>(type: "int", nullable: false),
                     UpdatedOn = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    AdventureNodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserAdventureId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    AdventureNodeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -54,8 +53,7 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
                         name: "FK_UserAdventures_Adventures_AdventureId",
                         column: x => x.AdventureId,
                         principalTable: "Adventures",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -78,19 +76,18 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
                         name: "FK_UserAdventureSteps_Adventures_AdventureStepId",
                         column: x => x.AdventureStepId,
                         principalTable: "Adventures",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserAdventureSteps_UserAdventures_UserAdventureId",
+                        column: x => x.UserAdventureId,
+                        principalTable: "UserAdventures",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Adventures_AdventureNodeId",
                 table: "Adventures",
                 column: "AdventureNodeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Adventures_UserAdventureId",
-                table: "Adventures",
-                column: "UserAdventureId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserAdventures_AdventureId",
@@ -100,22 +97,17 @@ namespace Tha.ChooseYourAdventure.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_UserAdventureSteps_AdventureStepId",
                 table: "UserAdventureSteps",
-                column: "AdventureStepId");
+                column: "AdventureStepId",
+                unique: true);
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Adventures_UserAdventures_UserAdventureId",
-                table: "Adventures",
-                column: "UserAdventureId",
-                principalTable: "UserAdventures",
-                principalColumn: "Id");
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAdventureSteps_UserAdventureId",
+                table: "UserAdventureSteps",
+                column: "UserAdventureId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Adventures_UserAdventures_UserAdventureId",
-                table: "Adventures");
-
             migrationBuilder.DropTable(
                 name: "UserAdventureSteps");
 
