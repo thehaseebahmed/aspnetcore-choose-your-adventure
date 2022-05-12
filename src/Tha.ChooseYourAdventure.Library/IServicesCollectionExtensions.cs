@@ -5,11 +5,20 @@ using System;
 using Adventures = Tha.ChooseYourAdventure.Library.Resources.Adventures;
 using UserAdventures = Tha.ChooseYourAdventure.Library.Resources.UserAdventures;
 using Tha.ChooseYourAdventure.Library.Repositories;
+using FluentValidation;
+using Tha.ChooseYourAdventure.Library.PipelineBehaviors;
 
 namespace Tha.ChooseYourAdventure.Library
 {
     public static class IServicesCollectionExtensions
     {
+        public static IServiceCollection AddMyFluentValidatonsPipeline(this IServiceCollection services)
+        {
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+
+            return services;
+        }
+
         public static IServiceCollection AddMyHandlers(this IServiceCollection services)
         {
             #region Sample Handlers
@@ -77,6 +86,15 @@ namespace Tha.ChooseYourAdventure.Library
             services.AddScoped(typeof(IRepository<Data.Entities.AdventureNode>), typeof(EFCoreRepository<Data.Entities.AdventureNode>));
             services.AddScoped(typeof(IRepository<Data.Entities.UserAdventure>), typeof(EFCoreRepository<Data.Entities.UserAdventure>));
             services.AddScoped(typeof(IRepository<Data.Entities.UserAdventureStep>), typeof(EFCoreRepository<Data.Entities.UserAdventureStep>));
+
+            return services;
+        }
+
+        public static IServiceCollection AddMyValidators(this IServiceCollection services)
+        {
+            AssemblyScanner
+                .FindValidatorsInAssembly(typeof(Library.DummyClass).Assembly)
+                .ForEach(item => services.AddScoped(item.InterfaceType, item.ValidatorType));
 
             return services;
         }

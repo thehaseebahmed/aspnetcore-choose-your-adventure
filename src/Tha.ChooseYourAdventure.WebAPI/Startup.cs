@@ -14,6 +14,7 @@ using Tha.ChooseYourAdventure.Library;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Reflection;
 using Tha.ChooseYourAdventure.WebAPI.Filters;
+using FluentValidation;
 
 namespace Tha.ChooseYourAdventure.WebAPI
 {
@@ -35,11 +36,9 @@ namespace Tha.ChooseYourAdventure.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(ConfigureControllers)
-                    .AddFluentValidation(ConfigureFluentValidation);
-
             services.AddAutoMapper(typeof(Library.DummyClass));
             services.AddApplicationInsightsTelemetry();
+            services.AddControllers(ConfigureControllers);
             services.AddDbContext<ApiDbContext>(ConfigureDbContext);
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.AddSwaggerGen(ConfigureSwaggerGen);
@@ -87,13 +86,6 @@ namespace Tha.ChooseYourAdventure.WebAPI
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         }
 
-        public void ConfigureFluentValidation(FluentValidationMvcConfiguration options)
-        {
-            options.ImplicitlyValidateChildProperties = true;
-            options.RegisterValidatorsFromAssemblyContaining<Library.DummyClass>();
-            options.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
-        }
-
         public void ConfigureSwaggerGen(SwaggerGenOptions options)
         {
             options.CustomSchemaIds(type => type.ToString());
@@ -102,15 +94,17 @@ namespace Tha.ChooseYourAdventure.WebAPI
 
         public void AddMyDependencies(IServiceCollection services)
         {
+            services.AddMyFluentValidatonsPipeline();
             services.AddMyHandlers();
             services.AddMyRepositories();
+            services.AddMyValidators();
 
             services.AddScoped<IDbSeeder, DbSeeder>();
             services.AddTransient<IValidatorInterceptor, CustomResponseInterceptor>();
         }
 
         public void SeedDatabase(IApplicationBuilder app)
-        {;
+        {
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var dbSeeder = scope.ServiceProvider.GetRequiredService<IDbSeeder>();
