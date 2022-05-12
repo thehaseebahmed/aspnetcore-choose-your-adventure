@@ -86,6 +86,7 @@ namespace Tha.ChooseYourAdventure.Client
         }
 
         public string Name { get; set; } = string.Empty;
+        public string OptionTitle { get; set; } = string.Empty;
         public UserAdventureStatus Status { get; set; }
         public ICollection<GetAdventuresViewModel> Steps { get; set; }
     }

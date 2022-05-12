@@ -23,7 +23,8 @@ namespace Tha.ChooseYourAdventure.Data
             {
                 Id = Guid.Parse("07a3df4a-cd28-4b54-a04f-3bad824e00c1"),
                 IsRootNode = true,
-                Name = "Doughnut Decision Helper",
+                Name = "Do i want a doughnut?",
+                OptionTitle = "Doughnut Decision Helper",
                 Children = new[] {
                     new AdventureNode() {
                         Id = Guid.Parse("40700ac8-e618-48c6-bb1f-43dca30b53fe"),

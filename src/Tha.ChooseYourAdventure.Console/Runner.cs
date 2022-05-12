@@ -4,25 +4,28 @@ namespace Tha.ChooseYourAdventure.Client
 {
     public sealed class Runner
     {
-        private readonly IApi _api;
-
-        public Runner()
-        {
-            _api = RestClient.For<IApi>("https://localhost:44310/api/v1");
-        }
+        private readonly IApi _api = RestClient.For<IApi>("https://localhost:52027/api/v1");
 
         public async Task Run()
         {
             Console.Clear();
 
-            // Console.Write("Enter User Id? ");
-            // var userId = Guid.Parse(Console.ReadLine() ?? "00000000-0000-0000-0000-000000000001");
-            var userId = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            Guid userId = Guid.Empty;
+            do
+            {
+                Console.Write("Enter User Id? ");
+                Guid.TryParse(Console.ReadLine(), out userId);
+
+                if (userId == Guid.Empty) { Console.WriteLine("User Id is not a GUID, please try again!"); }
+            } while (userId == Guid.Empty);
+
+            Console.WriteLine("Starting the application...");
+            Console.Clear();
 
             int userOption = -1;
             do
             {
-                Console.Write("1.Start a New Adventure\n2.Continue an Adventure\n3.Show All of My Adventures\n0.Exit\n\nChoose an option? ");
+                Console.Write($"Current User: {userId}\n\n1.Start a New Adventure\n2.Continue an Adventure\n3.Show All of My Adventures\n0.Exit\n\nChoose an option? ");
                 userOption = int.Parse(Console.ReadLine() ?? "-1");
 
                 var actions = new Dictionary<int, Func<Task>>()
@@ -128,6 +131,11 @@ namespace Tha.ChooseYourAdventure.Client
                     Console.Clear();
                 }
             }
+
+            if (choosenAdventure.Children.Count() < 1)
+            {
+                Console.WriteLine($"{choosenAdventure.Name}");
+            }
         }
 
         private async Task ShowMyAdventures(Guid userId)
@@ -140,22 +148,24 @@ namespace Tha.ChooseYourAdventure.Client
             {
                 var adventure = adventures.Data.ElementAt(i);
                 var status = adventure.Status == UserAdventureStatus.InProgress ? "In Progress" : "Completed";
-                Console.WriteLine($"{i + 1}. {adventure.Name} - {status}");
+                Console.WriteLine($"{i + 1}. {adventure.OptionTitle} - {status}");
                 if (status == "Completed") { PrintAdventurePath(adventure); }
             }
         }
 
         private void PrintAdventurePath(GetUserAdventuresViewModel adventure)
         {
+            Console.Write($"   {adventure.Name}");
+
             for (int i = 0; i < adventure.Steps.Count; i++)
             {
-                var spaces = (4 * i) + 3;
-                for (int j = 0; j < spaces; j++) { Console.Write(" "); }
-                if (spaces > 3) { Console.Write("-> "); }
-
                 var step = adventure.Steps.ElementAt(i);
-                if (i == adventure.Steps.Count - 1) { Console.WriteLine($"{step.Name}"); }
-                else { Console.WriteLine($"{step.Name} {step.OptionTitle}"); }
+                Console.WriteLine($" -> {step.OptionTitle}");
+
+                var spaces = 3;
+                for (int j = 0; j < spaces; j++) { Console.Write(" "); }
+
+                Console.Write($"{step.Name}");
             }
 
             Console.WriteLine();

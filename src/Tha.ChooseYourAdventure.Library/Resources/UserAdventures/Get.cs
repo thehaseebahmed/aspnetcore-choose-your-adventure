@@ -49,6 +49,7 @@ namespace Tha.ChooseYourAdventure.Library.Resources.UserAdventures
             {
                 CreateMap<UserAdventure, Response>()
                     .ForMember(dst => dst.Name, opt => opt.MapFrom(src => src.Adventure.Name))
+                    .ForMember(dst => dst.OptionTitle, opt => opt.MapFrom(src => src.Adventure.OptionTitle))
                     ;
 
                 CreateMap<UserAdventureStep, Response.ResponseSteps>()
