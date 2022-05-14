@@ -21,6 +21,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
+      cd src
       docker tag thachooseyouradventurewebapi:latest thehaseebahmed/my-private-repo:tha-cyoa-latest
 
 - task: DockerCompose@0
