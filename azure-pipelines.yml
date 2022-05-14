@@ -15,7 +15,6 @@ steps:
     containerregistrytype: 'Container Registry'
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
-    dockerComposeFileArgs: 'DOCKER_REGISTRY-=$(DOCKER_REGISTRY-)'
     action: 'Build services'
     includeLatestTag: true
 
@@ -24,6 +23,5 @@ steps:
     containerregistrytype: 'Container Registry'
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
-    dockerComposeFileArgs: 'DOCKER_REGISTRY-=$(DOCKER_REGISTRY-)'
     action: 'Push services'
     includeLatestTag: true
