@@ -28,5 +28,5 @@ steps:
     containerregistrytype: 'Container Registry'
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
-    action: 'Push services'
-    additionalImageTags: 'new-repo:tha-cyoa-latest'
+    action: 'Run a Docker Compose command'
+    dockerComposeCommand: 'push new-repo:tha-cyoa-latest'
