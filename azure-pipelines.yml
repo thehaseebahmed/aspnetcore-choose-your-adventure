@@ -16,7 +16,12 @@ steps:
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Build services'
-    additionalImageTags: 'new-repo:tha-cyoa-latest'
+
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'docker tag thachooseyouradventurewebapi:latest new-repo:tha-cyoa-latest'
+    pwsh: true
 
 - task: DockerCompose@0
   inputs:
