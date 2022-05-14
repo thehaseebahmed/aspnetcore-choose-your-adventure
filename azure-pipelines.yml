@@ -24,4 +24,4 @@ steps:
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Run a Docker Compose command'
     dockerComposeCommand: 'push'
-    arguments: 'thehaseebahmed/thachooseyouradventurewebapi'
+    arguments: 'tha.chooseyouradventure.webapi'
