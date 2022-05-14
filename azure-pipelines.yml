@@ -22,5 +22,4 @@ steps:
     containerregistrytype: 'Container Registry'
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
-    action: 'Run a Docker Compose command'
-    dockerComposeCommand: 'push thehaseebahmed/my-repo:tha-cyoa'
+    action: 'Push services'
