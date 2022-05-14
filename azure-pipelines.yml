@@ -16,18 +16,12 @@ steps:
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Build services'
-
-- task: Bash@3
-  inputs:
-    targetType: 'inline'
-    script: |
-      cd src
-      docker tag thachooseyouradventurewebapi:latest thehaseebahmed/my-private-repo:tha-cyoa-latest
+    includeLatestTag: true
 
 - task: DockerCompose@0
   inputs:
     containerregistrytype: 'Container Registry'
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
-    action: 'Run a Docker Compose command'
-    dockerComposeCommand: 'push thehaseebahmed/my-private-repo:tha-cyoa-latest'
+    action: 'Push services'
+    includeLatestTag: true
