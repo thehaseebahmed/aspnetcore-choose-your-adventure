@@ -16,12 +16,12 @@ steps:
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
     action: 'Build services'
+    additionalImageTags: 'new-repo:tha-cyoa-latest'
 
 - task: DockerCompose@0
   inputs:
     containerregistrytype: 'Container Registry'
     dockerRegistryEndpoint: 'My Docker Hub'
     dockerComposeFile: '**/docker-compose.yml'
-    action: 'Run a Docker Compose command'
-    dockerComposeCommand: 'push'
-    arguments: 'tha.chooseyouradventure.webapi'
+    action: 'Push services'
+    additionalImageTags: 'new-repo:tha-cyoa-latest'
